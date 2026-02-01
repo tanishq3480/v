@@ -10,13 +10,13 @@ body {
     background: linear-gradient(to right, #6a0dad, #b19cd9);
     text-align: center;
     font-family: Arial;
-    margin-top: 30px;
+    margin-top: 20px;
     overflow: hidden;
     color: white;
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 34px;
     animation: glow 2s infinite alternate;
 }
 
@@ -41,7 +41,7 @@ button {
 }
 
 #yes:hover {
-    transform: scale(1.2) rotate(5deg);
+    transform: scale(1.2);
 }
 
 #no {
@@ -51,15 +51,17 @@ button {
 
 #message {
     font-size: 24px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
-.bear {
-    width: 220px;
-    margin-bottom: 10px;
+/* Bear couple container */
+#bearContainer {
+    width: 260px;
+    margin: auto;
 }
 
-.lottieAnimal {
+/* Moving animals */
+.animal {
     position: absolute;
     width: 140px;
     transition: all 1s ease;
@@ -79,8 +81,16 @@ button {
 
 <body>
 
-<!-- Cute bear couple at the top -->
-<img class="bear" src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif">
+<!-- Stable bear couple animation -->
+<div id="bearContainer">
+<lottie-player
+    src="https://assets7.lottiefiles.com/packages/lf20_tfb3estd.json"
+    background="transparent"
+    speed="1"
+    loop
+    autoplay>
+</lottie-player>
+</div>
 
 <h1 id="title"></h1>
 
@@ -91,7 +101,7 @@ button {
 
 <script>
 
-// Custom typing question
+// Typing effect with YOUR custom text
 var text = "Dear Madam Baby, will you be my Valentine? 💜";
 var i = 0;
 
@@ -106,34 +116,34 @@ function typeEffect() {
 typeEffect();
 
 
-// ----- LOTTIE ANIMALS (ONLY FOR INTERACTION) -----
+// Reliable Lottie animations (cats, penguin, bunny)
 
-var lottieFiles = [
-"https://assets9.lottiefiles.com/packages/lf20_kxsd2ytq.json", // cute cat
-"https://assets1.lottiefiles.com/packages/lf20_u4yrau.json",   // penguin
-"https://assets10.lottiefiles.com/packages/lf20_myejiggj.json" // dog
+var animals = [
+"https://assets2.lottiefiles.com/packages/lf20_mk8i6kfi.json",  // cute cat
+"https://assets1.lottiefiles.com/packages/lf20_u4yrau.json",    // penguin
+"https://assets8.lottiefiles.com/packages/lf20_h4th9ofg.json"   // bunny
 ];
 
-function createLottieAnimals() {
-    for (let i = 0; i < lottieFiles.length; i++) {
-        let lottie = document.createElement("lottie-player");
-        lottie.src = lottieFiles[i];
-        lottie.autoplay = true;
-        lottie.loop = true;
+function spawnAnimals() {
+    for (let i = 0; i < animals.length; i++) {
+        let l = document.createElement("lottie-player");
 
-        lottie.className = "lottieAnimal";
+        l.src = animals[i];
+        l.autoplay = true;
+        l.loop = true;
+        l.className = "animal";
 
-        lottie.style.left = Math.random() * window.innerWidth + "px";
-        lottie.style.top = Math.random() * window.innerHeight + "px";
+        l.style.left = Math.random() * window.innerWidth + "px";
+        l.style.top = Math.random() * (window.innerHeight - 200) + "px";
 
-        document.body.appendChild(lottie);
+        document.body.appendChild(l);
     }
 }
 
-createLottieAnimals();
+spawnAnimals();
 
 
-// ----- NO BUTTON FUN -----
+// NO button logic
 
 function moveNo() {
     var button = document.getElementById("no");
@@ -146,51 +156,51 @@ function moveNo() {
     button.style.top = y + "px";
 
     document.getElementById("message").innerHTML =
-        "Even the animals think you should press YES 😤";
+        "The animals think YES is the correct answer 😤";
 
-    chaseButton();
+    moveAnimals();
 }
 
-function chaseButton() {
-    let lotties = document.getElementsByClassName("lottieAnimal");
+function moveAnimals() {
+    let list = document.getElementsByClassName("animal");
 
-    for (let l of lotties) {
-        l.style.left = Math.random() * window.innerWidth + "px";
-        l.style.top = Math.random() * window.innerHeight + "px";
+    for (let a of list) {
+        a.style.left = Math.random() * window.innerWidth + "px";
+        a.style.top = Math.random() * window.innerHeight + "px";
     }
 }
 
 
-// ----- YES BUTTON CELEBRATION -----
+// YES button celebration
 
 function yesClicked() {
     document.getElementById("message").innerHTML =
         "YAYYYYY! Madam Baby said YES!!! 💜🥳";
 
-    let lotties = document.getElementsByClassName("lottieAnimal");
+    let list = document.getElementsByClassName("animal");
 
-    for (let l of lotties) {
-        l.classList.add("dance");
+    for (let a of list) {
+        a.classList.add("dance");
     }
 
-    partyMode();
+    celebration();
 }
 
-function partyMode() {
+function celebration() {
     setInterval(() => {
-        let lottie = document.createElement("lottie-player");
-        lottie.src = lottieFiles[Math.floor(Math.random() * lottieFiles.length)];
-        lottie.autoplay = true;
-        lottie.loop = true;
+        let l = document.createElement("lottie-player");
 
-        lottie.className = "lottieAnimal dance";
+        l.src = animals[Math.floor(Math.random() * animals.length)];
+        l.autoplay = true;
+        l.loop = true;
+        l.className = "animal dance";
 
-        lottie.style.left = Math.random() * window.innerWidth + "px";
-        lottie.style.top = Math.random() * window.innerHeight + "px";
+        l.style.left = Math.random() * window.innerWidth + "px";
+        l.style.top = Math.random() * window.innerHeight + "px";
 
-        document.body.appendChild(lottie);
+        document.body.appendChild(l);
 
-    }, 900);
+    }, 1200);
 }
 
 </script>
