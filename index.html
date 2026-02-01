@@ -5,85 +5,89 @@
 
 <style>
 body {
-    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    background: linear-gradient(to right, #6a0dad, #b19cd9);
     text-align: center;
     font-family: Arial;
-    margin-top: 80px;
+    margin-top: 60px;
     overflow: hidden;
+    color: white;
 }
 
 h1 {
-    color: #b3003b;
     font-size: 40px;
-    animation: pulse 2s infinite;
+    animation: glow 2s infinite alternate;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+@keyframes glow {
+    from { text-shadow: 0 0 10px white; }
+    to { text-shadow: 0 0 20px pink; }
 }
 
 button {
     padding: 15px 30px;
     font-size: 20px;
     margin: 15px;
-    border-radius: 15px;
+    border-radius: 20px;
     border: none;
     cursor: pointer;
     transition: 0.3s;
 }
 
 #yes {
-    background-color: #ff3366;
-    color: white;
+    background-color: #d896ff;
+    color: black;
 }
 
 #yes:hover {
-    transform: scale(1.2);
+    transform: scale(1.2) rotate(5deg);
 }
 
 #no {
     background-color: white;
+    color: black;
 }
 
 #message {
-    font-size: 22px;
-    margin-top: 20px;
-    color: #660033;
-}
-
-.heart {
-    position: absolute;
     font-size: 24px;
-    animation: fall 4s linear infinite;
+    margin-top: 20px;
 }
 
-@keyframes fall {
-    0% { transform: translateY(-100px); opacity: 1; }
-    100% { transform: translateY(800px); opacity: 0; }
+.animal {
+    position: absolute;
+    font-size: 40px;
+    animation: bounce 3s infinite;
 }
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+    100% { transform: translateY(0); }
+}
+
+.dance {
+    animation: spin 2s infinite linear;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 </style>
-
 </head>
 
 <body>
 
 <h1 id="title"></h1>
 
-<button id="yes" onclick="yesClicked()">YES 💖</button>
-<button id="no" onclick="moveNo()">NO 😢</button>
+<button id="yes" onclick="yesClicked()">YES 💜</button>
+<button id="no" onclick="moveNo()">NO 🙃</button>
 
 <p id="message"></p>
 
-<audio id="music" loop>
-  <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
-</audio>
-
 <script>
 
-// Typing effect
-var text = "Will you be my Valentine? ❤️";
+var text = "Will you be my Valentine? 💜";
 var i = 0;
 
 function typeEffect() {
@@ -96,17 +100,23 @@ function typeEffect() {
 
 typeEffect();
 
-// YES button function
-function yesClicked() {
-    document.getElementById("message").innerHTML =
-        "YAYYYYY! You just made me the happiest person ever! 💘🥰";
+var animals = ["🐱","🐶","🐼","🐧","🐰","🐥","🦄","🐻"];
 
-    document.getElementById("music").play();
+function createAnimals() {
+    for (let i = 0; i < 8; i++) {
+        let a = document.createElement("div");
+        a.className = "animal";
+        a.innerHTML = animals[i];
 
-    startHearts();
+        a.style.left = Math.random() * window.innerWidth + "px";
+        a.style.top = Math.random() * window.innerHeight + "px";
+
+        document.body.appendChild(a);
+    }
 }
 
-// Moving NO button
+createAnimals();
+
 function moveNo() {
     var button = document.getElementById("no");
 
@@ -118,25 +128,45 @@ function moveNo() {
     button.style.top = y + "px";
 
     document.getElementById("message").innerHTML =
-        "You can run, but you can't escape love 😆";
+        "The animals say you should press YES 😤";
+
+    chaseNoButton();
 }
 
-// Falling hearts animation
-function startHearts() {
+function chaseNoButton() {
+    let animals = document.getElementsByClassName("animal");
+
+    for (let a of animals) {
+        a.style.left = (Math.random() * window.innerWidth) + "px";
+        a.style.top = (Math.random() * window.innerHeight) + "px";
+    }
+}
+
+function yesClicked() {
+    document.getElementById("message").innerHTML =
+        "YAYYYYY! I KNEW YOU LOVED ME!!! 💜🥳";
+
+    let animals = document.getElementsByClassName("animal");
+
+    for (let a of animals) {
+        a.classList.add("dance");
+    }
+
+    partyMode();
+}
+
+function partyMode() {
     setInterval(() => {
-        var heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerHTML = "💖";
+        let a = document.createElement("div");
+        a.className = "animal dance";
+        a.innerHTML = animals[Math.floor(Math.random()*animals.length)];
 
-        heart.style.left = Math.random() * window.innerWidth + "px";
+        a.style.left = Math.random() * window.innerWidth + "px";
+        a.style.top = Math.random() * window.innerHeight + "px";
 
-        document.body.appendChild(heart);
+        document.body.appendChild(a);
 
-        setTimeout(() => {
-            heart.remove();
-        }, 4000);
-
-    }, 300);
+    }, 400);
 }
 
 </script>
