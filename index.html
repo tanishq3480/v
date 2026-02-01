@@ -5,32 +5,63 @@
 
 <style>
 body {
-    background-color: #ffccd5;
+    background: linear-gradient(to right, #ff9a9e, #fad0c4);
     text-align: center;
     font-family: Arial;
-    margin-top: 100px;
+    margin-top: 80px;
+    overflow: hidden;
+}
+
+h1 {
+    color: #b3003b;
+    font-size: 40px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
 button {
     padding: 15px 30px;
-    font-size: 18px;
-    margin: 10px;
-    border-radius: 10px;
+    font-size: 20px;
+    margin: 15px;
+    border-radius: 15px;
     border: none;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 #yes {
-    background-color: #ff4d6d;
+    background-color: #ff3366;
     color: white;
+}
+
+#yes:hover {
+    transform: scale(1.2);
 }
 
 #no {
     background-color: white;
 }
 
-h1 {
-    color: #d90429;
+#message {
+    font-size: 22px;
+    margin-top: 20px;
+    color: #660033;
+}
+
+.heart {
+    position: absolute;
+    font-size: 24px;
+    animation: fall 4s linear infinite;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-100px); opacity: 1; }
+    100% { transform: translateY(800px); opacity: 0; }
 }
 </style>
 
@@ -38,29 +69,78 @@ h1 {
 
 <body>
 
-<h1>Will you be my Valentine? ❤️</h1>
+<h1 id="title"></h1>
 
-<button id="yes" onclick="yesClicked()">YES</button>
-<button id="no" onclick="moveNo()">NO</button>
+<button id="yes" onclick="yesClicked()">YES 💖</button>
+<button id="no" onclick="moveNo()">NO 😢</button>
+
+<p id="message"></p>
+
+<audio id="music" loop>
+  <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
+</audio>
 
 <script>
 
-function yesClicked() {
-    document.body.innerHTML = "<h1>YAYYYYY! ❤️🥰</h1><p>You just made my day!</p>";
+// Typing effect
+var text = "Will you be my Valentine? ❤️";
+var i = 0;
+
+function typeEffect() {
+    if (i < text.length) {
+        document.getElementById("title").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeEffect, 80);
+    }
 }
 
+typeEffect();
+
+// YES button function
+function yesClicked() {
+    document.getElementById("message").innerHTML =
+        "YAYYYYY! You just made me the happiest person ever! 💘🥰";
+
+    document.getElementById("music").play();
+
+    startHearts();
+}
+
+// Moving NO button
 function moveNo() {
     var button = document.getElementById("no");
 
-    var x = Math.random() * window.innerWidth;
-    var y = Math.random() * window.innerHeight;
+    var x = Math.random() * (window.innerWidth - 100);
+    var y = Math.random() * (window.innerHeight - 100);
 
     button.style.position = "absolute";
     button.style.left = x + "px";
     button.style.top = y + "px";
+
+    document.getElementById("message").innerHTML =
+        "You can run, but you can't escape love 😆";
+}
+
+// Falling hearts animation
+function startHearts() {
+    setInterval(() => {
+        var heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+
+        heart.style.left = Math.random() * window.innerWidth + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 4000);
+
+    }, 300);
 }
 
 </script>
 
 </body>
 </html>
+
