@@ -10,13 +10,13 @@ body {
     background: linear-gradient(to right, #6a0dad, #b19cd9);
     text-align: center;
     font-family: Arial;
-    margin-top: 50px;
+    margin-top: 30px;
     overflow: hidden;
     color: white;
 }
 
 h1 {
-    font-size: 40px;
+    font-size: 36px;
     animation: glow 2s infinite alternate;
 }
 
@@ -49,20 +49,20 @@ button {
     color: black;
 }
 
-.animal {
-    position: absolute;
-    width: 120px;
-    transition: all 1s ease;
+#message {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.bear {
+    width: 220px;
+    margin-bottom: 10px;
 }
 
 .lottieAnimal {
     position: absolute;
-    width: 150px;
-}
-
-#message {
-    font-size: 24px;
-    margin-top: 20px;
+    width: 140px;
+    transition: all 1s ease;
 }
 
 .dance {
@@ -73,11 +73,14 @@ button {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-</style>
 
+</style>
 </head>
 
 <body>
+
+<!-- Cute bear couple at the top -->
+<img class="bear" src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif">
 
 <h1 id="title"></h1>
 
@@ -88,7 +91,8 @@ button {
 
 <script>
 
-var text = "My Dear Madam Baby, /n Will you be my Valentine? 💜";
+// Custom typing question
+var text = "Dear Madam Baby, will you be my Valentine? 💜";
 var i = 0;
 
 function typeEffect() {
@@ -102,32 +106,7 @@ function typeEffect() {
 typeEffect();
 
 
-// ----- REAL GIF ANIMALS -----
-
-var gifAnimals = [
-"https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif",       // dancing cat
-"https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif", // penguin
-"https://media.giphy.com/media/xT0GqssRweIhlz209i/giphy.gif", // dog
-"https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif"       // cute cat
-];
-
-function createGifAnimals() {
-    for (let i = 0; i < gifAnimals.length; i++) {
-        let img = document.createElement("img");
-        img.src = gifAnimals[i];
-        img.className = "animal";
-
-        img.style.left = Math.random() * window.innerWidth + "px";
-        img.style.top = Math.random() * window.innerHeight + "px";
-
-        document.body.appendChild(img);
-    }
-}
-
-createGifAnimals();
-
-
-// ----- LOTTIE ANIMATED ANIMALS -----
+// ----- LOTTIE ANIMALS (ONLY FOR INTERACTION) -----
 
 var lottieFiles = [
 "https://assets9.lottiefiles.com/packages/lf20_kxsd2ytq.json", // cute cat
@@ -154,7 +133,7 @@ function createLottieAnimals() {
 createLottieAnimals();
 
 
-// ----- NO BUTTON INTERACTION -----
+// ----- NO BUTTON FUN -----
 
 function moveNo() {
     var button = document.getElementById("no");
@@ -167,19 +146,13 @@ function moveNo() {
     button.style.top = y + "px";
 
     document.getElementById("message").innerHTML =
-        "The animals are protecting the NO button 😤";
+        "Even the animals think you should press YES 😤";
 
     chaseButton();
 }
 
 function chaseButton() {
-    let animals = document.getElementsByClassName("animal");
     let lotties = document.getElementsByClassName("lottieAnimal");
-
-    for (let a of animals) {
-        a.style.left = Math.random() * window.innerWidth + "px";
-        a.style.top = Math.random() * window.innerHeight + "px";
-    }
 
     for (let l of lotties) {
         l.style.left = Math.random() * window.innerWidth + "px";
@@ -188,18 +161,13 @@ function chaseButton() {
 }
 
 
-// ----- YES BUTTON PARTY MODE -----
+// ----- YES BUTTON CELEBRATION -----
 
 function yesClicked() {
     document.getElementById("message").innerHTML =
-        "YAYYYYY! I KNEW YOU LOVED ME!!! 🥳💜";
+        "YAYYYYY! Madam Baby said YES!!! 💜🥳";
 
-    let animals = document.getElementsByClassName("animal");
     let lotties = document.getElementsByClassName("lottieAnimal");
-
-    for (let a of animals) {
-        a.classList.add("dance");
-    }
 
     for (let l of lotties) {
         l.classList.add("dance");
@@ -210,16 +178,19 @@ function yesClicked() {
 
 function partyMode() {
     setInterval(() => {
-        let img = document.createElement("img");
-        img.src = gifAnimals[Math.floor(Math.random() * gifAnimals.length)];
-        img.className = "animal dance";
+        let lottie = document.createElement("lottie-player");
+        lottie.src = lottieFiles[Math.floor(Math.random() * lottieFiles.length)];
+        lottie.autoplay = true;
+        lottie.loop = true;
 
-        img.style.left = Math.random() * window.innerWidth + "px";
-        img.style.top = Math.random() * window.innerHeight + "px";
+        lottie.className = "lottieAnimal dance";
 
-        document.body.appendChild(img);
+        lottie.style.left = Math.random() * window.innerWidth + "px";
+        lottie.style.top = Math.random() * window.innerHeight + "px";
 
-    }, 700);
+        document.body.appendChild(lottie);
+
+    }, 900);
 }
 
 </script>
