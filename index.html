@@ -3,12 +3,14 @@
 <head>
 <title>Be My Valentine?</title>
 
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
 <style>
 body {
     background: linear-gradient(to right, #6a0dad, #b19cd9);
     text-align: center;
     font-family: Arial;
-    margin-top: 60px;
+    margin-top: 50px;
     overflow: hidden;
     color: white;
 }
@@ -25,7 +27,7 @@ h1 {
 
 button {
     padding: 15px 30px;
-    font-size: 20px;
+    font-size: 22px;
     margin: 15px;
     border-radius: 20px;
     border: none;
@@ -47,33 +49,32 @@ button {
     color: black;
 }
 
+.animal {
+    position: absolute;
+    width: 120px;
+    transition: all 1s ease;
+}
+
+.lottieAnimal {
+    position: absolute;
+    width: 150px;
+}
+
 #message {
     font-size: 24px;
     margin-top: 20px;
 }
 
-.animal {
-    position: absolute;
-    font-size: 40px;
-    animation: bounce 3s infinite;
-}
-
-@keyframes bounce {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-30px); }
-    100% { transform: translateY(0); }
-}
-
 .dance {
-    animation: spin 2s infinite linear;
+    animation: spin 1.5s infinite linear;
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
 </style>
+
 </head>
 
 <body>
@@ -87,35 +88,73 @@ button {
 
 <script>
 
-var text = "Will you be my Valentine? 💜";
+var text = "My Dear Madam Baby, /n Will you be my Valentine? 💜";
 var i = 0;
 
 function typeEffect() {
     if (i < text.length) {
         document.getElementById("title").innerHTML += text.charAt(i);
         i++;
-        setTimeout(typeEffect, 80);
+        setTimeout(typeEffect, 70);
     }
 }
 
 typeEffect();
 
-var animals = ["🐱","🐶","🐼","🐧","🐰","🐥","🦄","🐻"];
 
-function createAnimals() {
-    for (let i = 0; i < 8; i++) {
-        let a = document.createElement("div");
-        a.className = "animal";
-        a.innerHTML = animals[i];
+// ----- REAL GIF ANIMALS -----
 
-        a.style.left = Math.random() * window.innerWidth + "px";
-        a.style.top = Math.random() * window.innerHeight + "px";
+var gifAnimals = [
+"https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif",       // dancing cat
+"https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif", // penguin
+"https://media.giphy.com/media/xT0GqssRweIhlz209i/giphy.gif", // dog
+"https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif"       // cute cat
+];
 
-        document.body.appendChild(a);
+function createGifAnimals() {
+    for (let i = 0; i < gifAnimals.length; i++) {
+        let img = document.createElement("img");
+        img.src = gifAnimals[i];
+        img.className = "animal";
+
+        img.style.left = Math.random() * window.innerWidth + "px";
+        img.style.top = Math.random() * window.innerHeight + "px";
+
+        document.body.appendChild(img);
     }
 }
 
-createAnimals();
+createGifAnimals();
+
+
+// ----- LOTTIE ANIMATED ANIMALS -----
+
+var lottieFiles = [
+"https://assets9.lottiefiles.com/packages/lf20_kxsd2ytq.json", // cute cat
+"https://assets1.lottiefiles.com/packages/lf20_u4yrau.json",   // penguin
+"https://assets10.lottiefiles.com/packages/lf20_myejiggj.json" // dog
+];
+
+function createLottieAnimals() {
+    for (let i = 0; i < lottieFiles.length; i++) {
+        let lottie = document.createElement("lottie-player");
+        lottie.src = lottieFiles[i];
+        lottie.autoplay = true;
+        lottie.loop = true;
+
+        lottie.className = "lottieAnimal";
+
+        lottie.style.left = Math.random() * window.innerWidth + "px";
+        lottie.style.top = Math.random() * window.innerHeight + "px";
+
+        document.body.appendChild(lottie);
+    }
+}
+
+createLottieAnimals();
+
+
+// ----- NO BUTTON INTERACTION -----
 
 function moveNo() {
     var button = document.getElementById("no");
@@ -128,28 +167,42 @@ function moveNo() {
     button.style.top = y + "px";
 
     document.getElementById("message").innerHTML =
-        "The animals say you should press YES 😤";
+        "The animals are protecting the NO button 😤";
 
-    chaseNoButton();
+    chaseButton();
 }
 
-function chaseNoButton() {
+function chaseButton() {
     let animals = document.getElementsByClassName("animal");
+    let lotties = document.getElementsByClassName("lottieAnimal");
 
     for (let a of animals) {
-        a.style.left = (Math.random() * window.innerWidth) + "px";
-        a.style.top = (Math.random() * window.innerHeight) + "px";
+        a.style.left = Math.random() * window.innerWidth + "px";
+        a.style.top = Math.random() * window.innerHeight + "px";
+    }
+
+    for (let l of lotties) {
+        l.style.left = Math.random() * window.innerWidth + "px";
+        l.style.top = Math.random() * window.innerHeight + "px";
     }
 }
 
+
+// ----- YES BUTTON PARTY MODE -----
+
 function yesClicked() {
     document.getElementById("message").innerHTML =
-        "YAYYYYY! I KNEW YOU LOVED ME!!! 💜🥳";
+        "YAYYYYY! I KNEW YOU LOVED ME!!! 🥳💜";
 
     let animals = document.getElementsByClassName("animal");
+    let lotties = document.getElementsByClassName("lottieAnimal");
 
     for (let a of animals) {
         a.classList.add("dance");
+    }
+
+    for (let l of lotties) {
+        l.classList.add("dance");
     }
 
     partyMode();
@@ -157,20 +210,19 @@ function yesClicked() {
 
 function partyMode() {
     setInterval(() => {
-        let a = document.createElement("div");
-        a.className = "animal dance";
-        a.innerHTML = animals[Math.floor(Math.random()*animals.length)];
+        let img = document.createElement("img");
+        img.src = gifAnimals[Math.floor(Math.random() * gifAnimals.length)];
+        img.className = "animal dance";
 
-        a.style.left = Math.random() * window.innerWidth + "px";
-        a.style.top = Math.random() * window.innerHeight + "px";
+        img.style.left = Math.random() * window.innerWidth + "px";
+        img.style.top = Math.random() * window.innerHeight + "px";
 
-        document.body.appendChild(a);
+        document.body.appendChild(img);
 
-    }, 400);
+    }, 700);
 }
 
 </script>
 
 </body>
 </html>
-
